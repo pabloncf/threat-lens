@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: threatlens
+          POSTGRES_USER: threatlens
+          POSTGRES_PASSWORD: threatlens
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U threatlens"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_URL: jdbc:postgresql://localhost:5432/threatlens
+      DB_USERNAME: threatlens
+      DB_PASSWORD: threatlens
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: maven
+
+      - name: Build and test
+        run: mvn -B verify
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: maven
+
+      # TODO: wire up OWASP Dependency-Check once dependencies stabilize (Phase 8).
+      - name: Placeholder
+        run: echo "OWASP Dependency-Check step to be added in Phase 8"
