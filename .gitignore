@@ -1,0 +1,18 @@
+# Maven build output
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# Graphify knowledge graph — regenerated locally, not source of truth
+graphify-out/
+
+# Personal/local Claude Code permissions — machine-specific, never shared or templated
+.claude/
+
+CLAUDE.md
