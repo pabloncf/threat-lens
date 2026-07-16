@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: threatlens
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/threatlens}
+    username: ${DB_USERNAME:threatlens}
+    password: ${DB_PASSWORD:threatlens}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+threatlens:
+  anthropic:
+    api-key: ${ANTHROPIC_API_KEY:}
