@@ -23,3 +23,10 @@ spring:
 threatlens:
   anthropic:
     api-key: ${ANTHROPIC_API_KEY:}
+  detection:
+    brute-force:
+      sensitive-paths:
+        - /login
+        - /api/auth
+      threshold: 5
+      window: 1m
