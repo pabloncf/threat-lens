@@ -9,7 +9,7 @@
         tree). The CPE matcher collides on the coincidental version-number match with the
         real, old netty:netty:4.1.0 release from ~2016.
         ]]></notes>
-        <fileName regex="true">^spring-boot-netty-.*\.jar$</fileName>
+        <filePath regex="true">.*spring-boot-netty-.*\.jar$</filePath>
         <cpe>cpe:/a:netty:netty</cpe>
     </suppress>
 
@@ -19,7 +19,7 @@
         CPE for the real, old Spring Framework 4.1.0 (2014). The actual Spring Framework in
         this project is spring-core 7.0.8, unaffected by CVE-2016-5007.
         ]]></notes>
-        <fileName regex="true">^spring-kafka-.*\.jar$</fileName>
+        <filePath regex="true">.*spring-kafka-.*\.jar$</filePath>
         <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
     </suppress>
 
@@ -45,7 +45,7 @@
         published as a stable Maven Central release, only a beta, so pinning to it isn't
         currently possible either.)
         ]]></notes>
-        <fileName regex="true">^kotlin-stdlib.*\.jar$</fileName>
+        <filePath regex="true">.*kotlin-stdlib.*\.jar$</filePath>
         <cve>CVE-2026-53914</cve>
     </suppress>
 
