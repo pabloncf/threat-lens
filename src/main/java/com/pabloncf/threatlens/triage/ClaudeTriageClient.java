@@ -30,11 +30,9 @@ public class ClaudeTriageClient {
     private final AnthropicClient client;
     private final String model;
 
-    public ClaudeTriageClient(
-            @Value("${threatlens.anthropic.api-key}") String apiKey,
-            @Value("${threatlens.triage.model}") String model) {
+    public ClaudeTriageClient(@Value("${threatlens.anthropic.api-key}") String apiKey, TriageProperties properties) {
         this.client = AnthropicOkHttpClient.builder().apiKey(apiKey).build();
-        this.model = model;
+        this.model = properties.model();
     }
 
     public ClaudeTriageResponse triage(String eventType, int score, String severity, String redactedDetails) {
