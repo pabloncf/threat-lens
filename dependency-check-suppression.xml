@@ -25,12 +25,13 @@
 
     <suppress>
         <notes><![CDATA[
-        False positive: CVE-2018-1258 was fixed in Spring Security 4.2.4 / 5.0.3 (2018). Our
-        actual version, spring-security-core 7.1.0, is far newer than the vulnerable range -
-        the NVD CPE match for this old CVE does not correctly bound the affected version range
-        against modern Spring Security releases.
+        False positive: CVE-2018-1258 was fixed in Spring Security 4.2.4 / 5.0.3 (2018). All
+        Spring Security modules here (spring-security-core, spring-security-web, ...) share
+        the same 7.1.0 version, far newer than the vulnerable range - the NVD CPE match for
+        this old CVE does not correctly bound the affected version range against modern Spring
+        Security releases. No filePath restriction on purpose - applies to any module in this
+        family, same reasoning as the Kotlin suppression below.
         ]]></notes>
-        <filePath regex="true">.*spring-security-core-.*\.jar$</filePath>
         <cve>CVE-2018-1258</cve>
     </suppress>
 
