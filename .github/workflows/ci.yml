@@ -79,6 +79,7 @@ jobs:
           args: >
             --failOnCVSS 7
             --enableRetired
+            --suppression dependency-check-suppression.xml
 
       - name: Upload Dependency-Check report
         uses: actions/upload-artifact@v4

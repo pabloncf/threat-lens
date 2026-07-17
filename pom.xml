@@ -19,6 +19,11 @@
 
     <properties>
         <java.version>21</java.version>
+        <!-- Security fixes over the spring-boot-dependencies BOM defaults - see
+             dependency-check-suppression.xml for the false positives that don't need this. -->
+        <httpcore5.version>5.4.3</httpcore5.version>
+        <postgresql.version>42.7.12</postgresql.version>
+        <tomcat.version>11.0.23</tomcat.version>
     </properties>
 
     <dependencies>

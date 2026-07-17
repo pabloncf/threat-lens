@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+
+    <suppress>
+        <notes><![CDATA[
+        False positive: spring-boot-netty is Spring Boot's own integration module, versioned
+        to match Spring Boot's own release (4.1.0) - it is not the Netty library itself. The
+        real Netty here is 4.2.15.Final (see the io.netty:netty-* artifacts in the dependency
+        tree). The CPE matcher collides on the coincidental version-number match with the
+        real, old netty:netty:4.1.0 release from ~2016.
+        ]]></notes>
+        <fileName regex="true">^spring-boot-netty-.*\.jar$</fileName>
+        <cpe>cpe:/a:netty:netty</cpe>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        False positive: spring-kafka's own version number (4.1.0) coincidentally matches the
+        CPE for the real, old Spring Framework 4.1.0 (2014). The actual Spring Framework in
+        this project is spring-core 7.0.8, unaffected by CVE-2016-5007.
+        ]]></notes>
+        <fileName regex="true">^spring-kafka-.*\.jar$</fileName>
+        <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        False positive: CVE-2018-1258 was fixed in Spring Security 4.2.4 / 5.0.3 (2018). Our
+        actual version, spring-security-core 7.1.0, is far newer than the vulnerable range -
+        the NVD CPE match for this old CVE does not correctly bound the affected version range
+        against modern Spring Security releases.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-core@.*$</packageUrl>
+        <cve>CVE-2018-1258</cve>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        Out of scope: CVE-2026-53914 is unsafe deserialization in the Kotlin compiler's build
+        cache metadata (CWE-502) - a build-time risk for projects that invoke the Kotlin
+        compiler/Gradle build cache. This project is pure Java/Maven and never runs the Kotlin
+        compiler or its build cache; kotlin-stdlib/kotlin-stdlib-common here are only
+        transitive runtime jars pulled in via okhttp -> okio (used by the Anthropic Java SDK).
+        The runtime stdlib jar itself is not the vulnerable component. (Also: 2.4.20 is not yet
+        published as a stable Maven Central release, only a beta, so pinning to it isn't
+        currently possible either.)
+        ]]></notes>
+        <fileName regex="true">^kotlin-stdlib.*\.jar$</fileName>
+        <cve>CVE-2026-53914</cve>
+    </suppress>
+
+</suppressions>
