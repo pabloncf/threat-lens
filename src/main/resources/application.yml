@@ -40,3 +40,6 @@ threatlens:
       window: 1m
   kafka:
     security-events-topic: security-events
+  triage:
+    model: claude-haiku-4-5
+    min-severity: HIGH
