@@ -2,6 +2,11 @@ spring:
   application:
     name: threatlens
 
+  security:
+    user:
+      name: ${API_ADMIN_USERNAME:admin}
+      password: ${API_ADMIN_PASSWORD:changeme}
+
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/threatlens}
     username: ${DB_USERNAME:threatlens}
