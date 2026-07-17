@@ -57,6 +57,26 @@ jobs:
           distribution: temurin
           cache: maven
 
-      # TODO: wire up OWASP Dependency-Check once dependencies stabilize (Phase 8).
-      - name: Placeholder
-        run: echo "OWASP Dependency-Check step to be added in Phase 8"
+      - name: Build project
+        run: mvn -B -DskipTests package
+
+      # Optional: add an NVD_API_KEY repository secret and pass
+      # `--nvdApiKey ${{ secrets.NVD_API_KEY }}` in args below to speed up the NVD data feed
+      # download significantly. Works without one too, just slower on a cold cache.
+      - name: OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: threatlens
+          path: "."
+          format: "HTML"
+          out: "dependency-check-report"
+          args: >
+            --failOnCVSS 7
+            --enableRetired
+
+      - name: Upload Dependency-Check report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report
+          path: ${{ github.workspace }}/dependency-check-report
