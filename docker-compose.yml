@@ -41,6 +41,52 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  threatlens:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: demo
+      DB_URL: jdbc:postgresql://postgres:5432/threatlens
+      DB_USERNAME: threatlens
+      DB_PASSWORD: threatlens
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      API_ADMIN_USERNAME: ${API_ADMIN_USERNAME:-admin}
+      API_ADMIN_PASSWORD: ${API_ADMIN_PASSWORD:-changeme}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  attack-simulator:
+    image: curlimages/curl:8.11.0
+    volumes:
+      - ./demo/attack-simulator.sh:/attack-simulator.sh:ro
+    entrypoint: ["/bin/sh", "/attack-simulator.sh"]
+    environment:
+      TARGET_URL: http://threatlens:8080
+    depends_on:
+      threatlens:
+        condition: service_healthy
+    restart: "no"
 
 volumes:
   postgres-data:
