@@ -65,6 +65,12 @@ jobs:
       # download significantly. Works without one too, just slower on a cold cache.
       - name: OWASP Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
+        env:
+          # actions/setup-java@v4 points JAVA_HOME at the host runner's JDK, but this
+          # action runs in its own Docker image with a JDK at /opt/jdk - reset it so the
+          # action's entrypoint doesn't try to exec a host path that doesn't exist inside
+          # the container.
+          JAVA_HOME: /opt/jdk
         with:
           project: threatlens
           path: "."
