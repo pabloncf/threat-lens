@@ -30,7 +30,7 @@
         the NVD CPE match for this old CVE does not correctly bound the affected version range
         against modern Spring Security releases.
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-core@.*$</packageUrl>
+        <filePath regex="true">.*spring-security-core-.*\.jar$</filePath>
         <cve>CVE-2018-1258</cve>
     </suppress>
 
@@ -39,13 +39,13 @@
         Out of scope: CVE-2026-53914 is unsafe deserialization in the Kotlin compiler's build
         cache metadata (CWE-502) - a build-time risk for projects that invoke the Kotlin
         compiler/Gradle build cache. This project is pure Java/Maven and never runs the Kotlin
-        compiler or its build cache; kotlin-stdlib/kotlin-stdlib-common here are only
-        transitive runtime jars pulled in via okhttp -> okio (used by the Anthropic Java SDK).
-        The runtime stdlib jar itself is not the vulnerable component. (Also: 2.4.20 is not yet
-        published as a stable Maven Central release, only a beta, so pinning to it isn't
-        currently possible either.)
+        compiler or its build cache; every org.jetbrains.kotlin artifact here (kotlin-stdlib*,
+        kotlin-reflect, kotlin-stdlib-common, ...) is only a transitive runtime jar pulled in
+        via okhttp -> okio (used by the Anthropic Java SDK) or similar. No filePath restriction
+        here on purpose - this CVE doesn't apply to any runtime Kotlin jar regardless of which
+        one it gets matched against. (Also: 2.4.20 is not yet published as a stable Maven
+        Central release, only a beta, so pinning to it isn't currently possible either.)
         ]]></notes>
-        <filePath regex="true">.*kotlin-stdlib.*\.jar$</filePath>
         <cve>CVE-2026-53914</cve>
     </suppress>
 
