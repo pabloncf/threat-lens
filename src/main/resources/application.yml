@@ -41,6 +41,7 @@ threatlens:
       sensitive-paths:
         - /login
         - /api/auth
+        - /demo/login
       threshold: 5
       window: 1m
   kafka:
